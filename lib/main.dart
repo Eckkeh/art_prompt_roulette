@@ -1,122 +1,145 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ArtPromptRouletteApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class ArtPromptRouletteApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Art Prompt Roulette',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: Colors.deepPurple,
+        brightness: Brightness.dark,
+        fontFamily: 'Roboto',
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: PromptHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class PromptHomePage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _PromptHomePageState createState() => _PromptHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _PromptHomePageState extends State<PromptHomePage> {
+  final Random _random = Random();
+  String _currentPrompt = 'Tap to get a prompt 🎲';
 
-  void _incrementCounter() {
+  final List<String> subjects = [
+    'a jellyfish',
+    'an abandoned mall',
+    'a lonely fox',
+    'a haunted mirror',
+    'an astronaut in love',
+    'a floating island',
+    'a cyberpunk cityscape',
+    'a mysterious forest',
+    'a dragon sleeping on gold',
+    'a vintage robot',
+    'a steampunk airship',
+    'a neon-lit alley',
+    'a secret underwater city',
+    'a giant clocktower',
+    'an ancient ruin',
+    'a futeristic samurai',
+    'a talking tree',
+    'a crystal cavern',
+    'a forgotten spaceship',
+    'a whimsical carnival',
+  ];
+
+  final List<String> styles = [
+    'in pixel art style',
+    'as a Renaissance painting',
+    'as a tarot card',
+    'with only two colors',
+    'in the style of a cave painting',
+    'like a comic book panel',
+    'with neon lights',
+    'in watercolor',
+    'in surrealism style',
+    'like a 1980s sci-fi poster',
+    'as a stained glass window',
+    'in a minimalist style',
+    'like an impressionist painting',
+    'in black and white',
+    'as a vintage poster',
+    'like a graffiti mural',
+    'in glitch art style',
+    'as a pop art piece',
+    'in a pastel palette',
+    'like a fantasy illustration',
+  ];
+
+  final List<String> moods = [
+    'melancholy',
+    'chaotic',
+    'serene',
+    'dreadful',
+    'surreal',
+    'joyful',
+    'mysterious',
+    'dreamy',
+    'angry',
+    'peaceful',
+    'nostaligic',
+    'whimsical',
+    'tense',
+    'hopeful',
+    'eerie',
+    'playful',
+    'solemn',
+    'enigmatic',
+    'wistful',
+    'melodramatic',
+  ];
+
+  void _generatePrompt() {
+    final subject = subjects[_random.nextInt(subjects.length)];
+    final style = styles[_random.nextInt(styles.length)];
+    final mood = moods[_random.nextInt(moods.length)];
+
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _currentPrompt = 'Draw $subject, $style, feeling $mood.';
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
+      backgroundColor: Colors.black,
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                _currentPrompt,
+                style: TextStyle(fontSize: 24.0),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
+              ElevatedButton.icon(
+                onPressed: _generatePrompt,
+                icon: Icon(Icons.refresh),
+                label: Text('New Prompt'),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  backgroundColor: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
